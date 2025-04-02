@@ -1,0 +1,39 @@
+{
+    "@context": "https://www.w3.org/2018/credentials/v1",
+    "type": "VerifiablePresentation",
+    "verifiableCredential": [
+      {
+        "@context": [
+          "https://www.w3.org/2018/credentials/v1",
+          "https://schema.org"
+        ],
+        "type": ["VerifiableCredential", "Aadhaar"],
+        "issuer": "https://uidai.gov.in",
+        "credentialSubject": {
+          "name": "Amitsingh Ajitsingh Tanwar",
+          "identifier": "XXXX-XXXX-XXXX",
+          "gender": "Male",
+          "dob": "2013-01-01",
+          "Address": "House No. 123, Street No. 456, City, State, Country",
+          "City": "Bengaluru",
+          "issuedBy": "Unique Identification Authority of India (UIDAI)"
+        },
+        "issuanceDate": "2025-04-01"
+      },
+      {
+        "@context": [
+          "https://www.w3.org/2018/credentials/v1",
+          "https://schema.org"
+        ],
+        "type": ["VerifiableCredential", "PANCard"],
+        "issuer": "https://incometaxindia.gov.in",
+        "credentialSubject": {
+          "name": "Amitsingh Ajitsingh Tanwar",
+          "identifier": "XXXXX1234X",
+          "issuedBy": "Income Tax Department, Govt. of India"
+        },
+        "issuanceDate": "2025-04-02"
+      }
+    ]
+  }
+  
