@@ -10,7 +10,7 @@
         "type": ["VerifiableCredential", "Aadhaar"],
         "issuer": "https://uidai.gov.in",
         "credentialSubject": {
-          "name": "Amitsingh Ajitsingh Tanwar",
+          "name": "Jon Snow",
           "identifier": "XXXX-XXXX-XXXX",
           "gender": "Male",
           "dob": "2013-01-01",
@@ -28,11 +28,27 @@
         "type": ["VerifiableCredential", "PANCard"],
         "issuer": "https://incometaxindia.gov.in",
         "credentialSubject": {
-          "name": "Amitsingh Ajitsingh Tanwar",
+          "name": "Jon Snow",
           "identifier": "XXXXX1234X",
           "issuedBy": "Income Tax Department, Govt. of India"
         },
         "issuanceDate": "2025-04-02"
+      },
+      {
+        "@context": [
+          "https://www.w3.org/2018/credentials/v1",
+          "https://schema.org"
+        ],
+        "type": ["VerifiableCredential", "DrivingLicence"],
+        "issuer": "https://transport.gov.in",
+        "credentialSubject": {
+          "name": "Jon Snow",
+          "identifier": "DL-123456789012",
+          "vehicleClass": "LMV",
+          "dob": "2013-01-01",
+          "issuedBy": "Ministry of Road Transport & Highways"
+        },
+        "issuanceDate": "2025-04-03"
       }
     ]
   }

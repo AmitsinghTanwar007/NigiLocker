@@ -17,6 +17,7 @@ const DerivedCredential: React.FC<DerivedCredentialProps> = ({ setPage, setSelec
 
   useEffect(() => {
     // Get the array of credential names from localStorage
+    localStorage.setItem('derivedCred', JSON.stringify(['age less than 15', 'age Greater than 60', 'City']));
     const derivedCredString = localStorage.getItem('derivedCred');
     
     if (derivedCredString) {
@@ -50,7 +51,8 @@ const DerivedCredential: React.FC<DerivedCredentialProps> = ({ setPage, setSelec
 
   const handleCardClick = (credName: string) => {
     setCredId(credName);
-    setPage("bengaluru-zoo");
+    localStorage.setItem('credId', credName);
+    setPage("credential-page");
   };
 
   const handleProceed = () => {
@@ -72,11 +74,6 @@ const DerivedCredential: React.FC<DerivedCredentialProps> = ({ setPage, setSelec
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-          </button>
-          <button className="text-gray-700 rounded-full h-8 w-8 flex items-center justify-center border border-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </button>
         </div>
@@ -121,7 +118,7 @@ const DerivedCredential: React.FC<DerivedCredentialProps> = ({ setPage, setSelec
       </div>
       
       <button 
-        className={`w-full py-3 px-4 rounded-lg font-semibold text-white ${
+        className={`w-full py-3 px-4 rounded-lg mb-3 font-semibold text-white ${
           selectedCred 
             ? 'bg-indigo-600 hover:bg-indigo-700 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' 
             : 'bg-indigo-300 cursor-not-allowed'
@@ -130,6 +127,12 @@ const DerivedCredential: React.FC<DerivedCredentialProps> = ({ setPage, setSelec
         disabled={!selectedCred}
       >
         Proceed
+      </button>
+      <button 
+        className='w-full py-3 px-4 rounded-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer'
+        onClick={() => setPage('combine-derived')}
+      >
+        Combination of Derived Credentials
       </button>
     </div>
   );

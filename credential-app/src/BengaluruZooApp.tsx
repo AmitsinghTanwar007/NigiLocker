@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
+import { FaCheckCircle } from "react-icons/fa"; // Import green tick icon
+import { ImCross } from "react-icons/im";
 interface BengaluruZooAppProps {
   setPage: (page: string) => void;
   verificationStatus?: boolean; // Add this prop to receive verification status from parent
@@ -44,6 +45,8 @@ const BengaluruZooApp: React.FC<BengaluruZooAppProps> = ({ setPage, verification
     setIsVerified(false);
     setPaymentComplete(false);
     setPendingVerification(true);
+    localStorage.removeItem('bengaluruZooState');
+    localStorage.removeItem('credId');
   };
   
 interface CredentialSubject {
@@ -63,7 +66,14 @@ const checkverify = (cred: string): void => {
         try {
             // Parse the credential data
             const credential: Credential = JSON.parse(credentialData);
-            if (credential.credentialSubject.age) {
+            // Ensure credentialSubject is an array
+            const subjects = Array.isArray(credential.credentialSubject) ? credential.credentialSubject : [credential.credentialSubject];
+
+            // Find age and city inside the array
+            const ageObj = subjects.find(obj => 'age' in obj);
+            const cityObj = subjects.find(obj => 'City' in obj);
+
+            if (ageObj && cityObj) {
                 setIsVerified(true);
                 setPendingVerification(false);
                 setIsBengaluruResident(true);
@@ -135,7 +145,7 @@ const checkverify = (cred: string): void => {
   const checkVerification = () => {
     saveStateToStorage();
     setPendingVerification(true);
-    setPage("verifiable-credential");
+    setPage("intent-flow");
   };
 
   // Save state to localStorage
@@ -222,16 +232,16 @@ const checkverify = (cred: string): void => {
 
   // Render details page
   const renderDetailsPage = () => (
-    <div className="bg-green-50 min-h-screen p-6 flex flex-col">
-      <header className="text-center mb-8">
+    <div className="bg-green-50  p-6 flex flex-col">
+      <header className="text-center mb-3">
         <h1 className="text-4xl font-bold text-green-800 mb-2">Bengaluru Zoo</h1>
         <p className="text-green-600 text-lg">
           Discover the amazing wildlife and get your tickets online for a seamless experience.
         </p>
       </header>
 
-      <div className="bg-white rounded-lg p-6 border-2 border-green-500 max-w-md mx-auto w-full shadow-md mt-8">
-        <div className="flex justify-center mb-4">
+      <div className="bg-white rounded-lg p-6 border-2 border-green-500 max-w-md mx-auto w-full shadow-md mt-5">
+        <div className="flex justify-center mb-2">
           <div className="bg-green-500 rounded-full p-3">
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
@@ -256,28 +266,36 @@ const checkverify = (cred: string): void => {
             />
           </div>
 
-            <button
-              className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
+          <div
+              className="mt-4 text-green-900 py-2 px-4 text-center rounded-md transition"
+            >
+            Discount is only for age below 15 or above 60 and must be resident of Bengaluru
+            </div>
+
+            {!isVerified && <button
+              className="mt-2 bg-blue-500 ml-20 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition  shadow-sm shadow-black"
               onClick={() => checkVerification()}
             >
-              Verify for Discount of 50%
-            </button>
+              Verify for Discount 
+            </button>}
 
-          {isBengaluruResident && isVerified && (
-            <div className="mt-4 text-green-600 font-semibold">
-              Verification successful! You are eligible for a discount.
-            </div>
-          )}
+            {isBengaluruResident && isVerified && (
+        <div className="mt-4 text-green-600 font-bold text-xl text-center flex flex-col items-center justify-center ">
+            <FaCheckCircle className="mr-2 text-5xl" />
+         Verification successful! You are eligible for a discount.
+        </div>
+      )}
 
             {isBengaluruResident  && !isVerified && !pendingVerification && (
-                <div className="mt-4 text-red-600 font-semibold">
+                <div className="mt-4 text-red-600 font-bold text-xl flex justify-center items-center flex-col text-center">
+                    <ImCross className="mr-2 text-5xl" />
                 Verification not successful! You are not eligible for a discount.
                 </div>
             )}
         </div>
 
         <button
-          className="w-full bg-orange-500 text-white py-3 px-4 rounded-md font-medium hover:bg-orange-600 transition"
+          className="w-full bg-orange-500 text-white py-3 px-4 rounded-md font-medium hover:bg-orange-600 transition shadow-sm shadow-black"
           onClick={() => setCurrentPage('confirmation')}
         >
           Pay ₹{getTicketPrice()}
@@ -290,7 +308,7 @@ const checkverify = (cred: string): void => {
         </div>
       </div>
 
-      <footer className="mt-auto text-center text-green-800 text-sm pt-8">
+      <footer className="mt-3 text-center text-green-800 text-sm pt-8">
         <p>© 2025 Bengaluru Zoo. All rights reserved.</p>
         <p>Open daily from 9:00 AM to 5:00 PM</p>
       </footer>

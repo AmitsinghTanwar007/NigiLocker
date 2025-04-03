@@ -53,7 +53,7 @@ function PresentablePage({ setPage, cred,setCredId }: PresentablePageProps) {
     localStorage.setItem("credId", uniqueId);
     setCredId(uniqueId);
     console.log(uniqueId);
-    setPage("bengaluru-zoo");
+    setPage("credential-page");
     // const queryParams = new URLSearchParams(filteredCredential.credentialSubject).toString();
     // window.location.href = `https://same-dqlpvohc2ei-latest.netlify.app/?${queryParams}`;
   };

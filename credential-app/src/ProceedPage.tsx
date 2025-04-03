@@ -27,8 +27,12 @@ function ProceedPage({ setPage, selectedCred, setCredId}: ProceedPageProps) {
   const [popupMessage, setPopupMessage] = useState("");
 
   useEffect(() => {
+    const addedCred = JSON.parse(localStorage.getItem("addedCred") || "[]");
     if (credentialsData?.verifiableCredential) {
-      setCredentials(credentialsData.verifiableCredential);
+      const filteredCredentials = credentialsData.verifiableCredential.filter(
+        (cred) => addedCred.includes(cred.type[1])
+      );
+      setCredentials(filteredCredentials);
     }
   }, []);
 
@@ -40,7 +44,7 @@ function ProceedPage({ setPage, selectedCred, setCredId}: ProceedPageProps) {
 
   const handleNavigate = () => {
         setCredId(selectedCred);
-        setPage("bengaluru-zoo");
+        setPage("credential-page");
       };
 
   const handleCardClick = async (value: Credential) => {
@@ -67,7 +71,7 @@ function ProceedPage({ setPage, selectedCred, setCredId}: ProceedPageProps) {
           // Check if age is less than 15
           if (age < 15) {
             console.log("Age is less than 15");
-            
+            const issuedBy = value.credentialSubject.issuedBy;
             // Create new credential with only age information
             const newCredential = {
               "@context": [
@@ -75,7 +79,7 @@ function ProceedPage({ setPage, selectedCred, setCredId}: ProceedPageProps) {
                 "https://schema.org"
               ],
               "type": ["VerifiableCredential", "AgeVerification"],
-              "issuer": "https://yourapplication.com",
+              "issuer": issuedBy,
               "credentialSubject": {
                 "age": "less than 15"
               },
@@ -87,8 +91,6 @@ function ProceedPage({ setPage, selectedCred, setCredId}: ProceedPageProps) {
             localStorage.setItem("credId", "age less than 15");
             displayPopup("Credential created successfully");
             await delay(2000)
-            // Navigate
-            handleNavigate();
           } else {
             displayPopup("Age is 15 or older");
           }
@@ -119,7 +121,7 @@ function ProceedPage({ setPage, selectedCred, setCredId}: ProceedPageProps) {
           // Check if age is greater than 60
           if (age > 60) {
             console.log("Age is greater than 60");
-            
+            const issuedBy = value.credentialSubject.issuedBy;
             // Create new credential with only age information
             const newCredential = {
               "@context": [
@@ -127,7 +129,7 @@ function ProceedPage({ setPage, selectedCred, setCredId}: ProceedPageProps) {
                 "https://schema.org"
               ],
               "type": ["VerifiableCredential", "AgeVerification"],
-              "issuer": "https://yourapplication.com",
+              "issuer": issuedBy,
               "credentialSubject": {
                 "age": "greater than 60"
               },
@@ -140,10 +142,39 @@ function ProceedPage({ setPage, selectedCred, setCredId}: ProceedPageProps) {
             displayPopup("Credential created successfully");
             // Navigate
             await delay(2000);
-            handleNavigate();
           } else {
             displayPopup("Age is 60 or younger");
           }
+          
+          console.log(value.credentialSubject.name);
+          break;
+      }
+      case "City": {
+        if (!value.credentialSubject.City) {
+            displayPopup("The selected Credential does not contain required information");
+            break;
+          }
+           const city= value.credentialSubject.City;
+           const issuedBy = value.credentialSubject.issuedBy;
+            // Create new credential with only age information
+            const newCredential = {
+              "@context": [
+                "https://www.w3.org/2018/credentials/v1",
+                "https://schema.org"
+              ],
+              "type": ["VerifiableCredential", "AgeVerification"],
+              "issuer": issuedBy,
+              "credentialSubject": {
+                "City": city,
+              },
+              "issuanceDate": new Date().toISOString().split('T')[0]
+            };
+        
+            // Store in localStorage
+            localStorage.setItem("City", JSON.stringify(newCredential));
+            localStorage.setItem("credId", "City");
+            displayPopup("Credential created successfully");
+            await delay(2000)
           
           console.log(value.credentialSubject.name);
           break;
@@ -195,11 +226,6 @@ function ProceedPage({ setPage, selectedCred, setCredId}: ProceedPageProps) {
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-          </button>
-          <button className="text-gray-700 rounded-full h-8 w-8 flex items-center justify-center border border-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </button>
         </div>
@@ -254,6 +280,15 @@ function ProceedPage({ setPage, selectedCred, setCredId}: ProceedPageProps) {
           animation: popup 0.3s ease-out;
         }
       `}</style>
+
+    <div className="absolute bottom-6 left-0 right-0 flex justify-center px-4">
+        <button
+          className="bg-blue-700 hover:bg-blue-800 text-white py-3 px-6 rounded-full w-full max-w-xs text-lg font-medium"
+          onClick={handleNavigate}
+        >
+          Present Credential
+        </button>
+      </div>
     </div>
   );
 }
