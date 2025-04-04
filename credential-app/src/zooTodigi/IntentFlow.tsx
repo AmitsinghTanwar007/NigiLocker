@@ -15,7 +15,7 @@ const IntentFlow: React.FC<IntentFlowProps> = ({ setPage }) => {
   }, [setPage]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-purple-100">
+    <div className="flex flex-col items-center justify-center h-[940px] bg-purple-100">
       <img
         src={digilocker}
         alt="DigiLocker Logo"

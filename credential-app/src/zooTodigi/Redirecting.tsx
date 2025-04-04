@@ -14,7 +14,7 @@ const Redirecting: React.FC<IntentFlowProps> = ({ setPage }) => {
   }, [setPage]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-green-100">
+    <div className="flex flex-col items-center justify-center h-[940px] bg-green-100">
         <div className="flex justify-center mb-4">
           <div className="bg-green-500 rounded-full p-3">
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

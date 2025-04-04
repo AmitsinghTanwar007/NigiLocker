@@ -65,9 +65,7 @@ const DerivedCredential: React.FC<DerivedCredentialProps> = ({ setPage, setSelec
 
   return (
     <div className="max-w-md mx-auto h-full p-6 bg-indigo-50 rounded-xl shadow-md">
-      <h2 className="text-2xl font-semibold text-indigo-700 mb-6">Verifiable Credential</h2>
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-8">
           <button 
             className="text-gray-700"
             onClick={() => setPage("verifiable-credential")}
@@ -77,6 +75,8 @@ const DerivedCredential: React.FC<DerivedCredentialProps> = ({ setPage, setSelec
             </svg>
           </button>
         </div>
+      <h2 className="text-2xl font-semibold text-indigo-700 mb-6">Verifiable Credential</h2>
+        {/* Header */}
 
       <div className="mb-6 space-y-3 cursor-pointer">
         {foundCreds.length > 0 ? (
@@ -100,7 +100,7 @@ const DerivedCredential: React.FC<DerivedCredentialProps> = ({ setPage, setSelec
       
       <div className="mb-6">
         <label htmlFor="credential-select" className="block text-sm font-medium text-gray-700 mb-2">
-          Select Credential:
+        Select Derived Credential Type:
         </label>
         <select 
           id="credential-select" 
@@ -108,7 +108,7 @@ const DerivedCredential: React.FC<DerivedCredentialProps> = ({ setPage, setSelec
           onChange={handleSelectChange}
           className="w-full p-3 border border-gray-300 rounded-lg bg-white text-base focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
         >
-          <option value="">-- Select a credential --</option>
+          <option value="">-- Select Derived Credential Type --</option>
           {derivedCreds.map((cred) => (
             <option key={cred} value={cred}>
               {cred}
