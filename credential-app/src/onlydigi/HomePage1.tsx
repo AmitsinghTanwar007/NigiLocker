@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import credentialsData from "./cred_file.json";
+import credentialsData from "../cred_file.json";
 
 // Define the types for our credential data
 interface CredentialSubject {
@@ -27,10 +27,10 @@ interface CredentialData {
 }
 
 interface HomePageProps {
-  setPage: (page: string) => void;
+  setPage1: (page: string) => void;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ setPage }) => {
+const HomePage1: React.FC<HomePageProps> = ({ setPage1 }) => {
   // Sample credential data from provided JSON
   
 
@@ -49,6 +49,10 @@ const HomePage: React.FC<HomePageProps> = ({ setPage }) => {
     setAvailableCredentials(filteredCredentials);
   }, []);
 
+  const findCredentialByType = (credType: string) => {
+      return credentialsData.verifiableCredential.find(cred => cred.type.includes(credType));
+    };
+
   const handleClick = (credType: string) => {
     // Get current added credentials array
     const addedCredentials = JSON.parse(localStorage.getItem('addedCred') || '[]');
@@ -63,6 +67,8 @@ const HomePage: React.FC<HomePageProps> = ({ setPage }) => {
       // Update state to remove the selected credential
       setAvailableCredentials(prev => prev.filter(cred => cred.type[1] !== credType));
     }
+    const credentialData = findCredentialByType(credType);
+    localStorage.setItem(credType,JSON.stringify(credentialData));
   };
 
   const formatDate = (dateString: string) => {
@@ -75,7 +81,7 @@ const HomePage: React.FC<HomePageProps> = ({ setPage }) => {
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
       <div className="mx-auto max-w-full p-4 pb-24">
         <div className="flex justify-between items-center mb-8">
-          <button className="text-gray-700" onClick={() => setPage("verifiable-credential")}>
+          <button className="text-gray-700" onClick={() => setPage1("verifiable-credential")}>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
@@ -120,4 +126,4 @@ const HomePage: React.FC<HomePageProps> = ({ setPage }) => {
   );
 };
 
-export default HomePage;
+export default HomePage1;

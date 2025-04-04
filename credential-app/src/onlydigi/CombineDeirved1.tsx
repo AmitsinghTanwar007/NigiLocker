@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 interface DerivedCredentialProps {
-  setPage: (page: string) => void;
+  setPage1: (page: string) => void;
   setCredId: (id: string) => void;
 }
 
-const CombineDerived: React.FC<DerivedCredentialProps> = ({ setPage, setCredId }) => {
+const CombineDerived1: React.FC<DerivedCredentialProps> = ({ setPage1, setCredId }) => {
   const [derivedCreds, setDerivedCreds] = useState<string[]>([]);
   const [foundCreds, setFoundCreds] = useState<string[]>([]);
   const [selectedCreds, setSelectedCreds] = useState<string[]>([]);
@@ -30,7 +30,7 @@ const CombineDerived: React.FC<DerivedCredentialProps> = ({ setPage, setCredId }
   const handleCardClick = (credName: string) => {
     setCredId(credName);
     localStorage.setItem('credId', credName);
-    setPage("credential-page");
+    setPage1("credential-page");
   };
 
   const handleCheckboxChange = (credName: string) => {
@@ -72,19 +72,19 @@ const CombineDerived: React.FC<DerivedCredentialProps> = ({ setPage, setCredId }
 
   return (
     <div className="max-w-md mx-auto h-full p-6 bg-indigo-50 rounded-xl shadow-md">
-      <h2 className="text-2xl font-semibold text-indigo-700 mb-6">Verifiable Credential</h2>
       <div className="flex justify-between items-center mb-8">
         <button 
           className="text-gray-700"
-          onClick={() => setPage("derived-cred")}
+          onClick={() => setPage1("derived-cred")}
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
       </div>
+      <h2 className="text-2xl font-semibold text-indigo-700 mb-6">Verifiable Credential</h2>
 
-      <div className="mb-6 space-y-3 cursor-pointer">
+      <div className="mb-2 space-y-3 cursor-pointer">
         {foundCreds.length > 0 ? (
           foundCreds.map((credName) => (
             <div key={credName} className="flex items-center p-4 bg-white rounded-lg shadow">
@@ -112,16 +112,16 @@ const CombineDerived: React.FC<DerivedCredentialProps> = ({ setPage, setCredId }
           <p className="text-center text-gray-600 py-6">No valid credentials found</p>
         )}
       </div>
-      <div className="absolute bottom-6 left-0 right-0 flex justify-center px-4">
+      <div className="absolute bottom-44 left-0 right-0 flex justify-center px-4">
         {isCombining&&<button
           className="bg-blue-700 hover:bg-blue-800 text-white py-3 px-6 rounded-full w-full max-w-xs text-lg font-medium"
           onClick={handlePresentCredential}
         >
-            Combine Credentials
+            Combine Presentations
         </button>}
         {!isCombining&&<button
           className="bg-blue-700 hover:bg-blue-800 text-white py-3 px-6 rounded-full w-full max-w-xs text-lg font-medium"
-          onClick={()=>setPage("credential-page")}
+          onClick={()=>setPage1("credential-page")}
         >
             Present Credential
         </button>}
@@ -130,4 +130,4 @@ const CombineDerived: React.FC<DerivedCredentialProps> = ({ setPage, setCredId }
   );
 };
 
-export default CombineDerived;
+export default CombineDerived1;

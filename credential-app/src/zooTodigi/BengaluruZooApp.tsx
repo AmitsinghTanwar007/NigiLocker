@@ -50,6 +50,7 @@ const BengaluruZooApp: React.FC<BengaluruZooAppProps> = ({ setPage, verification
   };
   
 interface CredentialSubject {
+    place: any;
     age: boolean;
     City: string;
     dob: string;
@@ -71,7 +72,7 @@ const checkverify = (cred: string): void => {
 
             // Find age and city inside the array
             const ageObj = subjects.find(obj => 'age' in obj);
-            const cityObj = subjects.find(obj => 'City' in obj);
+            const cityObj = subjects.find(obj => 'place' in obj);
 
             if (ageObj && cityObj) {
                 setIsVerified(true);
@@ -83,9 +84,27 @@ const checkverify = (cred: string): void => {
             
             // Extract relevant information
             const credentialSubject = credential.credentialSubject;
-            const city = credentialSubject.City;
-            const dob = credentialSubject.dob;
-            
+
+            let city = "Not Available";
+            let dob = "Not Available";
+
+            // Check if credentialSubject is an array
+            if (Array.isArray(credentialSubject)) {
+                const cityObj = credentialSubject.find(obj => 'place' in obj);
+                if (cityObj) city = cityObj.place;
+
+                const dobObj = credentialSubject.find(obj => 'dob' in obj);
+                if (dobObj) dob = dobObj.dob;
+            } else {
+                // If credentialSubject is a single object
+                if (credentialSubject.place) city = credentialSubject.place;
+                if (credentialSubject.dob) dob = credentialSubject.dob;
+            }
+
+            // Now `city` and `dob` can be used anywhere in this scope
+            console.log("City:", city);
+            console.log("DOB:", dob);
+
             // Calculate age based on DOB
             const birthDate = new Date(dob);
             const today = new Date();
@@ -95,7 +114,7 @@ const checkverify = (cred: string): void => {
             if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
                 age--;
             }
-            
+            console.log("the city is ",city);
             // Check if the person is eligible for a discount
             // 1. Check if they're from Bengaluru (case insensitive comparison)
             const isBengaluruResident = city.toLowerCase() === "bengaluru" || city.toLowerCase() === "bangalore";
@@ -183,9 +202,10 @@ const checkverify = (cred: string): void => {
 
   // Render start page
   const renderStartPage = () => (
-    <div className="bg-green-50 min-h-screen p-6 flex flex-col">
+    <div className="bg-green-50 h-[940px] p-6 flex flex-col">
+      
       <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-green-800 mb-2">Bengaluru Zoo</h1>
+        <h1 className="text-4xl font-bold text-green-800 mb-2">Bannerghatta  Zoo</h1>
         <p className="text-green-600 text-lg">
           Discover the amazing wildlife and get your tickets online for a seamless experience.
         </p>
@@ -200,7 +220,7 @@ const checkverify = (cred: string): void => {
           </div>
         </div>
 
-        <h2 className="text-2xl font-bold text-center text-green-800 mb-2">Bengaluru Zoo</h2>
+        <h2 className="text-2xl font-bold text-center text-green-800 mb-2">Bannerghatta  Zoo</h2>
         <p className="text-center text-green-600 mb-4">Experience Wildlife Up Close</p>
         <hr className="border-dashed border-gray-300 my-4" />
 
@@ -224,7 +244,7 @@ const checkverify = (cred: string): void => {
       </div>
 
       <footer className="mt-auto text-center text-green-800 text-sm pt-8">
-        <p>© 2025 Bengaluru Zoo. All rights reserved.</p>
+        <p>© 2025 Bannerghatta  Zoo. All rights reserved.</p>
         <p>Open daily from 9:00 AM to 5:00 PM</p>
       </footer>
     </div>
@@ -232,9 +252,19 @@ const checkverify = (cred: string): void => {
 
   // Render details page
   const renderDetailsPage = () => (
-    <div className="bg-green-50  p-6 flex flex-col">
+    <div className="bg-green-50 h-[940px] p-6 flex flex-col">
+      <div className="flex justify-between items-center mb-8">
+        <button 
+          className="text-gray-700"
+          onClick={() => setCurrentPage("start")}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+        </button>
+      </div>
       <header className="text-center mb-3">
-        <h1 className="text-4xl font-bold text-green-800 mb-2">Bengaluru Zoo</h1>
+        <h1 className="text-4xl font-bold text-green-800 mb-2">Bannerghatta  Zoo</h1>
         <p className="text-green-600 text-lg">
           Discover the amazing wildlife and get your tickets online for a seamless experience.
         </p>
@@ -249,7 +279,7 @@ const checkverify = (cred: string): void => {
           </div>
         </div>
 
-        <h2 className="text-2xl font-bold text-center text-green-800 mb-2">Bengaluru Zoo</h2>
+        <h2 className="text-2xl font-bold text-center text-green-800 mb-2">Bannerghatta  Zoo</h2>
         <p className="text-center text-green-600 mb-4">Experience Wildlife Up Close</p>
         <hr className="border-dashed border-gray-300 my-4" />
 
@@ -301,15 +331,15 @@ const checkverify = (cred: string): void => {
           Pay ₹{getTicketPrice()}
         </button>
 
-        <hr className="border-dashed border-gray-300 my-4" />
+        <hr className="border-dashed border-gray-300 my-1" />
         <div className="text-sm text-gray-500 flex justify-between">
           <p>Ticket ID: ZOO-23456</p>
           <p>Valid: All days 9:00 AM - 5:00 PM</p>
         </div>
       </div>
 
-      <footer className="mt-3 text-center text-green-800 text-sm pt-8">
-        <p>© 2025 Bengaluru Zoo. All rights reserved.</p>
+      <footer className="mt-1 text-center text-green-800 text-sm pt-8">
+        <p>© 2025 Bannerghatta  Zoo. All rights reserved.</p>
         <p>Open daily from 9:00 AM to 5:00 PM</p>
       </footer>
     </div>
@@ -317,9 +347,9 @@ const checkverify = (cred: string): void => {
 
   // Render confirmation page
   const renderConfirmationPage = () => (
-    <div className="bg-green-50 min-h-screen p-6 flex flex-col">
+    <div className="bg-green-50 h-[940px] p-6 flex flex-col">
       <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-green-800 mb-2">Bengaluru Zoo</h1>
+        <h1 className="text-4xl font-bold text-green-800 mb-2">Bannerghatta  Zoo</h1>
         <p className="text-green-600 text-lg">
           Discover the amazing wildlife and get your tickets online for a seamless experience.
         </p>
@@ -365,7 +395,7 @@ const checkverify = (cred: string): void => {
       </div>
 
       <footer className="mt-auto text-center text-green-800 text-sm pt-8">
-        <p>© 2025 Bengaluru Zoo. All rights reserved.</p>
+        <p>© 2025 Bannerghatta  Zoo. All rights reserved.</p>
         <p>Open daily from 9:00 AM to 5:00 PM</p>
       </footer>
     </div>

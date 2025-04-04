@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import credentialsData from "./cred_file.json";
+import credentialsData from "../cred_file.json";
 
 interface PresentablePageProps {
   setPage: (page: string) => void;
@@ -48,11 +48,11 @@ function PresentablePage({ setPage, cred,setCredId }: PresentablePageProps) {
   };
 
   const handlePresentCredential = () => {
-    const uniqueId = `cred-${Date.now()}`;
-    localStorage.setItem(uniqueId, JSON.stringify(filteredCredential));
-    localStorage.setItem("credId", uniqueId);
-    setCredId(uniqueId);
-    console.log(uniqueId);
+    // const uniqueId = `cred-${Date.now()}`;
+    localStorage.setItem(cred, JSON.stringify(filteredCredential));
+    localStorage.setItem("credId", cred);
+    setCredId(cred);
+    console.log(cred);
     setPage("credential-page");
     // const queryParams = new URLSearchParams(filteredCredential.credentialSubject).toString();
     // window.location.href = `https://same-dqlpvohc2ei-latest.netlify.app/?${queryParams}`;
@@ -102,7 +102,7 @@ function PresentablePage({ setPage, cred,setCredId }: PresentablePageProps) {
           className="bg-blue-700 hover:bg-blue-800 text-white py-3 px-6 rounded-full w-full max-w-xs text-lg font-medium"
           onClick={handlePresentCredential}
         >
-          Present Credential
+          Create Credential
         </button>
       </div>
     </div>

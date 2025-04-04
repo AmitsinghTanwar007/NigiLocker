@@ -15,7 +15,6 @@
           "gender": "Male",
           "dob": "2013-01-01",
           "Address": "House No. 123, Street No. 456, City, State, Country",
-          "City": "Bengaluru",
           "issuedBy": "Unique Identification Authority of India (UIDAI)"
         },
         "issuanceDate": "2025-04-01"
@@ -30,6 +29,7 @@
         "credentialSubject": {
           "name": "Jon Snow",
           "identifier": "XXXXX1234X",
+          "place":"Bengaluru",
           "issuedBy": "Income Tax Department, Govt. of India"
         },
         "issuanceDate": "2025-04-02"

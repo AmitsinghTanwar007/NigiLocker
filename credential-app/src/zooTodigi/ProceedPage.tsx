@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import './Nigi.css';
-import credentialsData from "./cred_file.json";
+import credentialsData from "../cred_file.json";
 
 interface ProceedPageProps {
   setPage: (page: string) => void;
@@ -149,12 +149,12 @@ function ProceedPage({ setPage, selectedCred, setCredId}: ProceedPageProps) {
           console.log(value.credentialSubject.name);
           break;
       }
-      case "City": {
-        if (!value.credentialSubject.City) {
+      case "place": {
+        if (!value.credentialSubject.place) {
             displayPopup("The selected Credential does not contain required information");
             break;
           }
-           const city= value.credentialSubject.City;
+           const city= value.credentialSubject.place;
            const issuedBy = value.credentialSubject.issuedBy;
             // Create new credential with only age information
             const newCredential = {
@@ -165,14 +165,14 @@ function ProceedPage({ setPage, selectedCred, setCredId}: ProceedPageProps) {
               "type": ["VerifiableCredential", "AgeVerification"],
               "issuer": issuedBy,
               "credentialSubject": {
-                "City": city,
+                "place": city,
               },
               "issuanceDate": new Date().toISOString().split('T')[0]
             };
         
             // Store in localStorage
-            localStorage.setItem("City", JSON.stringify(newCredential));
-            localStorage.setItem("credId", "City");
+            localStorage.setItem("place", JSON.stringify(newCredential));
+            localStorage.setItem("credId", "place");
             displayPopup("Credential created successfully");
             await delay(2000)
           

@@ -20,8 +20,8 @@ const CredentialPage: React.FC<CredentialPageProps> = ({ setPage }) => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-purple-100 p-6">
-        <div className="flex justify-between items-center mb-8">
+    <div className="flex flex-col items-center justify-center h-[950px] bg-purple-100 p-6">
+        <div className="flex justify-between items-center relative -top-16 -left-48">
           <button className="text-gray-700" onClick={() => setPage("verifiable-credential")}>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
